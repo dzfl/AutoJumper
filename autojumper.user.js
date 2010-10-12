@@ -24,17 +24,22 @@
 	function jump(siteinfo) {
 		var i = siteinfo.length;
 		while(i--) {
-			var item  = siteinfo[i].data;
-			var url   = item.url;
-			var xpath = item.xpath;
-			var regex = item.regex;
-			var click = item.click;
+			var item    = siteinfo[i].data;
+			var url     = item.url;
+			var xpath   = item.xpath;
+			var regex   = item.regex;
+			var replace = item.replace;
+			var click   = item.click;
+
 			if (new RegExp(url).test(location.href)) {
 				if(xpath) {
 					var a = $X(xpath)[0];
 					location.href = a;
 				} else if (regex) {
 					var a = new RegExp(regex).exec(document.body.innerHTML)[1];
+					location.href = a;
+				} else if (replace) {
+					 var a = decodeURIComponent(location.href.replace(new RegExp(url), replace));
 					location.href = a;
 				} else if (click) {
 					var a = $X(click)[0];
