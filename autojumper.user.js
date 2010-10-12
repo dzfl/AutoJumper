@@ -28,16 +28,20 @@
 			var url   = item.url;
 			var xpath = item.xpath;
 			var regex = item.regex;
+			var click = item.click;
 			if (new RegExp(url).test(location.href)) {
 				if(xpath) {
 					var a = $X(xpath)[0];
-					GM_log(a);
+					location.href = a;
 				} else if (regex) {
-				GM_log("hitaaaaaaa");
 					var a = new RegExp(regex).exec(document.body.innerHTML)[1];
-					GM_log(a);
+					location.href = a;
+				} else if (click) {
+					var a = $X(click)[0];
+					var evt = document.createEvent('MouseEvent');
+					evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+					a.dispatchEvent(evt);
 				}
-				location.href = a;
 			}
 		}
 	}
